@@ -12,13 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up GitHub CLI
-        uses: cli/cli-action@v2
-        with:
-          version: latest
 
       - name: Fetch PR details
         id: fetch_pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Use GitHub CLI to get PR details
           pr_title=$(gh pr view ${{ github.event.pull_request.number }} --json title -q ".title")
@@ -27,6 +25,8 @@ jobs:
           echo "PR_BODY=${pr_body}" >> $GITHUB_ENV
 
       - name: Validate PR Title
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating PR Title: $PR_TITLE"
           if [[ ! "$PR_TITLE" =~ ^(feat|fix|docs|style|refactor|test): ]]; then
@@ -35,6 +35,8 @@ jobs:
           fi
 
       - name: Validate PR Description
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating PR Description."
           if [[ -z "$PR_BODY" ]]; then
