@@ -55,7 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating the Commit Count"
-          if [$COMMIT_COUNT -gt 2]; then
+          if [[ "$COMMIT_COUNT" -gt 2 ]]; then
             echo "There are too many commits in the PR. Keep the commit count less than 3"
             exit 1
           fi
