@@ -11,11 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch PR details
         id: fetch_pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Use GitHub CLI to get PR details
           pr_title=$(gh pr view ${{ github.event.pull_request.number }} --json title -q ".title")
@@ -26,6 +26,8 @@ jobs:
           echo "COMMIT_COUNT=${commit_count}" >> $GITHUB_ENV
 
       - name: Validate PR Title
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating PR Title: $PR_TITLE"
           if [[ ! "$PR_TITLE" =~ ^(feat|fix|docs|style|refactor|test): ]]; then
@@ -39,6 +41,8 @@ jobs:
           fi
 
       - name: Validate PR Description
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating PR Description."
           if [[ -z "$PR_BODY" ]]; then
@@ -47,6 +51,8 @@ jobs:
           fi
 
       - name: Validating the Commit Count
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Validating the Commit Count"
           if [$COMMIT_COUNT -gt 2]; then
