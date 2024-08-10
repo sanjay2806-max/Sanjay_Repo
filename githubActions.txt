@@ -3,3 +3,4 @@ And now we test it.
 Lets give it one more try, shall we?
 One More Time!
 This time, it should work fine.
+Now, lets check the commit count validation.
